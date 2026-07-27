@@ -1,0 +1,25 @@
+{
+  "name": "meridian-docs-api",
+  "version": "1.4.2",
+  "description": "Meridian internal document service — customer document intake, storage, and retrieval for back-office operations.",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "seed": "node src/db/seed.js",
+    "reset": "node src/db/seed.js --reset",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@symbioticsec/code": "^0.8.1",
+    "better-sqlite3": "^11.3.0",
+    "express": "^4.21.0",
+    "morgan": "^1.10.0"
+  },
+  "author": "Meridian Platform Team",
+  "license": "UNLICENSED",
+  "private": true
+}
