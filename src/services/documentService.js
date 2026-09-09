@@ -46,10 +46,7 @@ function upload(req, res, next) {
   }
 }
 
-// Build the on-disk location for a stored document. Storage paths are recorded
-// relative to STORAGE_ROOT at intake time (see the batch onboarding job) and
-// joined back on read.
-// nosymbiotic SYM_JSTS_0115 -fp -- storagePath is validated in createDocument before being stored in DB
+
 function resolveStoragePath(storagePath) {
   return path.join(config.storageRoot, storagePath);
 }
@@ -124,7 +121,7 @@ function createDocument(customerId, docType, file, operator) {
       throw new Error('invalid_customer_id');
     }
     
-    // nosymbiotic SYM_JSTS_0115 -fp -- customerIdNum is validated as a number and normalizedFilename is sanitized
+
     const storagePath = path.join(String(customerIdNum), normalizedFilename);
     
     const info = stmt.run(
@@ -141,26 +138,24 @@ function createDocument(customerId, docType, file, operator) {
     const docId = info.lastInsertRowid;
     
     // Create customer directory if it doesn't exist
-    // nosymbiotic SYM_JSTS_0115 -fp -- customerIdNum is validated as a number and path is checked to be within storageRoot
     const customerDir = path.join(config.storageRoot, String(customerIdNum));
     // Ensure customerDir is still within storageRoot
-    // nosymbiotic SYM_JSTS_0115 -fp -- path is validated to be within storageRoot bounds
     const resolvedCustomerDir = path.resolve(customerDir);
     const resolvedStorageRoot = path.resolve(config.storageRoot);
     if (!resolvedCustomerDir.startsWith(resolvedStorageRoot)) {
       throw new Error('invalid_storage_path');
     }
     
-    // nosymbiotic SYM_JSTS_0102 -fp -- path is validated to be within storageRoot bounds
+
     if (!fs.existsSync(customerDir)) {
       fs.mkdirSync(customerDir, { recursive: true });
     }
     
     // Save file to storage
-    // nosymbiotic SYM_JSTS_0115 -fp -- storagePath is constructed from validated components
+
     const fullPath = path.join(config.storageRoot, storagePath);
     // Ensure fullPath is still within storageRoot
-    // nosymbiotic SYM_JSTS_0115 -fp -- path is validated to be within storageRoot bounds
+
     const resolvedFullPath = path.resolve(fullPath);
     if (!resolvedFullPath.startsWith(resolvedStorageRoot)) {
       throw new Error('invalid_storage_path');

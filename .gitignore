@@ -3,3 +3,12 @@ storage/
 meridian.db
 meridian.db-*
 *.log
+
+# Symbiotic Security - Security Rules (auto-generated)
+.cursor/rules/symbiotic_security_rules.mdc
+
+package-lock.json
+package.json
+.env 
+.vscode/
+.DS_Store
